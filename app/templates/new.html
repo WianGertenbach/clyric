@@ -36,33 +36,75 @@
 
 </section>
 
-<section class="song-content container">
-  <h4>Song Structure</h4>
-  <div class="content-columns">
+<section class="container song-content">
+  <div class="top-wrapper">
 
-    <div class="lyrics">
-      <form method="POST" action="">
-      <div>
-        <label for="lyrics">Lyrics</label>
-        <input type="textarea" name="lyrics" id="lyrics" placeholder="write or paste your lyrics here">
+    <div class="second-wrapper">
+      <div class="column-wrapper">
+        <div class="lyrics-wrapper">
+          <h4>Section</h4>
+          <form action="" class="lyrics-area">
+            <textarea name="lyrics" id="lyrics" rows="10" cols="80"></textarea>
+          </form>
+        </div>
+
+      <div class="notes-wrapper">
+        <h4>Notes</h4>
+        <form action="" class="notes-area">
+          <textarea name="notes" id="notes" rows="10" cols="80"></textarea>
+        </form>
       </div>
-    </form>
     </div>
+  </div>
 
-    <div class="note">
-      <form method="POST" action="">
-      <div>
-        <label for="notes" class="notes-border">Notes</label>
-        <input type="textarea" name="notes" id="notes" placeholder="add your song notes here">
+      <div class="second-wrapper">
+      <div class="column-wrapper">
+        <div class="lyrics-wrapper">
+          <h4>Section</h4>
+          <form action="" class="lyrics-area">
+            <textarea name="lyrics" id="lyrics" rows="10" cols="80"></textarea>
+          </form>
+        </div>
+
+      <div class="notes-wrapper">
+        <h4>Notes</h4>
+        <form action="" class="notes-area">
+          <textarea name="notes" id="notes" rows="10" cols="80"></textarea>
+        </form>
       </div>
-
-    </form>
-
     </div>
+  </div>
+      <div class="second-wrapper">
+      <div class="column-wrapper">
+        <div class="lyrics-wrapper">
+          <h4>Section</h4>
+          <form action="" class="lyrics-area">
+            <textarea name="lyrics" id="lyrics" rows="10" cols="80"></textarea>
+          </form>
+        </div>
+
+      <div class="notes-wrapper">
+        <h4>Notes</h4>
+        <form action="" class="notes-area">
+          <textarea name="notes" id="notes" rows="10" cols="80"></textarea>
+        </form>
+      </div>
+    </div>
+  </div>
+
+
 
   </div>
 
-    
 
 </section>
+
+<script>
+  document.addEventListener("input", function (e) {
+    if (e.target.tagName.toLowerCase() === "textarea") {
+      e.target.style.height = "auto"; // reset
+      e.target.style.height = (e.target.scrollHeight) + "px";
+    }
+  });
+</script>
 {% endblock %}
