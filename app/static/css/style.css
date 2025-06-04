@@ -1,0 +1,65 @@
+:root {
+  /* Colors */
+  --color-primary: #8E7DBE;
+  --color-accent1: #F6C28B;
+  --color-background: #FAF3DD;
+  --color-text: #4B3F72;
+
+  /* Font Family */
+  --font-family: 'Montserrat', sans-serif;
+
+  /* Typography */
+  --h1-size: 48px;
+  --h1-line-height: 1.4em;
+  --h1-weight: 400;
+
+  --h2-size: 36px;
+  --h2-line-height: 1.2em;
+  --h2-weight: 400;
+
+  --h3-size: 28px;
+  --h3-line-height: 1.2em;
+  --h3-weight: 400;
+
+  --h4-size: 20px;
+  --h4-line-height: 1.2em;
+  --h4-weight: 700;
+
+  --p-size: 14px;
+  --p-line-height: 1.4em;
+  --p-weight: 400;
+
+  --button-text-size: 12px;
+  --button-text-line-height: 1.2em;
+  --button-text-weight: 600;
+
+  --link-size: 14px;
+  --link-line-height: 1.2em;
+  --link-weight: 600;
+}
+
+body {
+  background-color: var(--color-background);
+  font-size: var(--p-size);
+  font-family: var(--font-family);
+  line-height: var(--p-line-height);
+  font-weight: var(--p-weight);
+  color: var(--color-text);
+  margin: 0;
+  padding: 0;
+  height: 100%;
+}
+
+.container {
+  padding: 0px 50px;
+}
+
+.navbar {
+  display: flex;
+  align-items: center;
+  align-content: stretch;
+  justify-content: space-between;
+  height: fit-content;
+  padding-top: 24px;
+  padding-bottom: 24px;
+}
