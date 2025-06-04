@@ -3,9 +3,25 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<div class="container">
+<section class="dashboard container">
+  <div class="song-dashboard-header">
     <h1>Song Dashboard</h1>
-  <!-- Song list goes here -->
+    <a href="{{ url_for('main.new_song') }}" class="new-song-btn">New Song +</a>
 </div>
+<div class="song-info">
+  <div class="song-div">
+    <h2>Song Title</h2>
+    <h3>Artist | Key | Time Signature | Tempo</h3>
+  </div>
+
+  <div class="options">
+    <a href="" style="color: red;">Delete</a>
+    <a href="">Edit</a>
+  </div>
+
+</div>
+
+</section>
+
 
 {% endblock %}
