@@ -21,7 +21,7 @@
   --h3-line-height: 1.2em;
   --h3-weight: 300;
 
-  --h4-size: 20px;
+  --h4-size: 28px;
   --h4-line-height: 1.2em;
   --h4-weight: 700;
 
@@ -51,6 +51,16 @@ h3 {
   padding: 0;
   margin: 4px 0px;
 }
+
+h34 {
+  font-weight: var(--h4-weight);
+  line-height:var(--h4-line-height);
+  padding: 0;
+  margin: 4px 0px;
+}
+
+
+
 
 body {
   background-color: var(--color-background);
@@ -105,6 +115,7 @@ a {
 .new-song-btn {
   padding: 4px 8px;
   background-color: var(--color-accent1);
+  color: var(--color-text);
   font-weight: 600;
   border-radius: 12px;
 }
@@ -134,4 +145,42 @@ a {
   justify-content: end;
   gap: 12px;
   flex: 1;
+}
+
+
+/*New and Edit pages*/
+label {
+  display: flex;
+  font-weight: 500;
+  margin-bottom: 4px;
+  margin-top: 12px;
+
+}
+
+input[type="text"], input[type="number"] {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+}
+
+input[type="textarea"]{
+  width: 100%;
+  box-sizing: border-box;
+  padding: 24px 8px;
+  border: 1px solid #ccc;
+  border: none;
+}
+
+.content-columns {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  background-color: #e9e1ff;
+  padding: 12px;
+}
+
+.lyrics, .note{
+  background-color: #6e6c77;
+  padding: 8px;
+  border-radius: 12px;
 }

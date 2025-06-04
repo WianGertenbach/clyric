@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}{{ 'Edit Song' if song_id else 'New Song' }}{% endblock %}
+
+{% block content %}
+  <h2>{{ 'Edit Song' if song_id else 'Create New Song' }}</h2>
+
+  <form method="POST" action="">
+    <div>
+      <label for="title">Title:</label>
+      <input type="text" name="title" id="title" required>
+    </div>
+
+    <div>
+      <label for="artist">Original Artist / Composer / Band:</label>
+      <input type="text" name="artist" id="artist">
+    </div>
+
+    <div>
+      <label for="key">Key:</label>
+      <input type="text" name="key" id="key">
+    </div>
+
+    <div>
+      <label for="tempo">Tempo (BPM):</label>
+      <input type="number" name="tempo" id="tempo" min="0">
+    </div>
+
+    <div>
+      <label for="time_signature">Time Signature:</label>
+      <input type="text" name="time_signature" id="time_signature" placeholder="e.g. 4/4">
+    </div>
+
+    <hr>
+
+    <!-- 🎵 Song Sections -->
+    <div id="sections">
+      <h3>Song Structure</h3>
+
+      <!-- You will later make these dynamic with Alpine.js -->
+      <div class="section">
+        <label>Section Title (e.g. Verse 1):</label>
+        <input type="text" name="sections[0][title]" value="Verse 1">
+
+        <div class="split">
+          <!-- Lyrics -->
+          <div>
+            <label>Lyrics:</label>
+            <textarea name="sections[0][lyrics]" rows="6"></textarea>
+          </div>
+
+          <!-- Notes -->
+          <div>
+            <label>Notes:</label>
+            <textarea name="sections[0][notes]" rows="6"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Add another section -->
+      <div class="section">
+        <label>Section Title:</label>
+        <input type="text" name="sections[1][title]" value="Chorus">
+
+        <div class="split">
+          <div>
+            <label>Lyrics:</label>
+            <textarea name="sections[1][lyrics]" rows="6"></textarea>
+          </div>
+
+          <div>
+            <label>Notes:</label>
+            <textarea name="sections[1][notes]" rows="6"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <!-- Later: Add buttons to duplicate, delete, or rearrange sections -->
+
+    </div>
+
+    <button type="submit">{{ 'Save Changes' if song_id else 'Create Song' }}</button>
+  </form>
+{% endblock %}
