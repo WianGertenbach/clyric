@@ -23,7 +23,7 @@
 
   --h4-size: 28px;
   --h4-line-height: 1.2em;
-  --h4-weight: 700;
+  --h4-weight: 500;
 
   --p-size: 14px;
   --p-line-height: 1.4em;
@@ -62,7 +62,7 @@ h4 {
 
 body {
   background-color: var(--color-background);
-  font-size: var(--p-size);
+  /*font-size: var(--p-size);*/
   font-family: var(--font-family);
   line-height: var(--p-line-height);
   font-weight: var(--p-weight);
@@ -118,7 +118,7 @@ a {
   background-color: var(--color-accent1);
   color: var(--color-text);
   font-weight: 600;
-  border-radius: 12px;
+  box-shadow: 0px 0px 10px 0px rgba(88, 88, 88, 0.19);
 }
 
 .dashboard {
@@ -132,7 +132,7 @@ a {
   box-shadow: 0px 0px 10px 0px rgba(88, 88, 88, 0.19);
   display: flex; 
   padding: 12px 24px 12px 24px;
-  border-radius: 24px;
+  
 }
 
 .song-div {
@@ -159,7 +159,7 @@ label {
 
 }
 
-input[type="text"], input[type="number"] {
+input[type="text"] {
   /*width: 100%;*/
   border: 1px solid #ccc;
   padding: 0px 8px;
@@ -186,32 +186,33 @@ input[type="textarea"]{
   gap: 4px;
 }
 
+.second-wrapper:hover {
+  box-shadow: 1px 1px 10px 1px rgba(137, 137, 137, 0.19)
+}
+
 .column-wrapper {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background-color: #ffffff;
+  background-color: #ffffff00;
   border-radius: 24px;
   width: 100%;
 }
 
 .lyrics-wrapper, .notes-wrapper{
-  background-color: #ffffff;
+  background-color: #ffffff00;
   padding: 8px;
-  border-bottom: 2px solid #8e7dbe44;
-  border-top: 2px solid #8e7dbe44;
+  border-bottom: 2px solid #bdbdbd44;
+  border-top: 2px solid #bdbdbd44;
 }
 
 .lyrics-wrapper {
-  border-bottom-left-radius: 12px;
-  border-top-left-radius: 12px;
-  border-left: 2px solid #8e7dbe44;
+  border-left: 2px solid #bdbdbd44;
+
 }
 
 .notes-wrapper{
-  border-bottom-right-radius: 12px;
-  border-top-right-radius: 12px;
-  border-left: 2px solid #8e7dbe44;
-  border-right: 2px solid #8e7dbe44;
+  border-left: 2px solid #bdbdbd44;
+  border-right: 2px solid #bdbdbd44;
 }
 
 #lyrics, #notes {
@@ -223,6 +224,10 @@ textarea {
   outline: none;
   resize: none;
   font-family: var(--font-family);
+  font-size: 16px;
+  color: #4B3F72;
+  background:none;
+  width: 100%;
 }
 
 .song-data {
@@ -230,7 +235,7 @@ textarea {
   gap: 12px;  
 }
 
-#title, #artist, #key, #tempo, #time_signature {
+#title, #artist, #key, #tempo, #time_signature, #song-section-name {
   border: none;
   border-radius: 0;
   outline: none;
@@ -279,4 +284,10 @@ textarea {
   display: flex;
   justify-content: start;
   gap: 0px;
+}
+
+
+#song-section-name {
+  border-bottom: 2px solid #bdbdbd44;
+  margin-bottom: 8px;
 }

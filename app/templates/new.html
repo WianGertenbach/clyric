@@ -20,11 +20,11 @@
 
       <p>|</p>
 
-      <input type="text" name="tempo" id="tempo" min="0" placeholder="Tempo (bpm)" oninput="resizeInput(this)" style="width: 11ch;">
+      <input type="text" name="tempo" id="tempo" min="0" placeholder="Tempo (bpm)" oninput="resizeInput(this)" style="width: 12ch;">
 
       <p>|</p>
 
-      <input type="text" name="time_signature" id="time_signature" placeholder="Time signature" oninput="resizeInput(this)" style="width:14ch;">
+      <input type="text" name="time_signature" id="time_signature" placeholder="Time signature" oninput="resizeInput(this)" style="max-width:12ch;">
       
       <p>|</p>
 
@@ -35,24 +35,23 @@
 
 <section class="song-content">
   <div class="top-wrapper">
-
     <div class="second-wrapper">
       <div class="column-wrapper">
         <div class="lyrics-wrapper">
-          <h4>Section</h4>
-          <form action="" class="lyrics-area">
-            <textarea name="lyrics" id="lyrics"></textarea>
+          <form action="" class="song-section">
+            <input name="song_section" id="song-section-name" placeholder="Section">
+            <textarea name="lyrics" id="lyrics" placeholder="Type/paste your lyrics here"></textarea>
           </form>
         </div>
 
       <div class="notes-wrapper">
-        <h4>Notes</h4>
         <form action="" class="notes-area">
-          <textarea name="notes" id="notes"></textarea>
+          <textarea name="notes" id="notes" placeholder="Add section notes here"></textarea>
         </form>
       </div>
     </div>
   </div>
+
 
   </div>
 </section>
@@ -72,5 +71,21 @@
     const length = input.value.length;
     input.style.width = (length > 0 ? length + 1 : 4) + 'ch'; // default to 4ch if empty
   }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    const fields = document.querySelectorAll("input, textarea");
+
+    fields.forEach((field, index) => {
+      if (field.tagName.toLowerCase() === 'input') {
+        field.addEventListener("keydown", function (e) {
+          if (e.key === "Enter") {
+            e.preventDefault(); // Prevent form submission
+            const next = fields[index + 1];
+            if (next) next.focus();
+          }
+        });
+      }
+    });
+  });
 </script>
 {% endblock %}
