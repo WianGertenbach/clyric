@@ -34,7 +34,7 @@
 </section>
 
 <section class="song-content">
-  <div class="top-wrapper">
+  <div class="top-wrapper" id="song-container">
     <div class="second-wrapper">
       <div class="column-wrapper">
         <div class="lyrics-wrapper">
@@ -49,6 +49,12 @@
           <textarea name="notes" id="notes" placeholder="Add section notes here"></textarea>
         </form>
       </div>
+
+      <div class="section-options">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-three-dots section-menu" viewBox="0 0 16 16">
+        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+        </svg>
+      </div>
     </div>
   </div>
 
@@ -57,6 +63,12 @@
 </section>
 
 </section>
+
+<div id="context-menu" class="hidden absolute bg-white border rounded shadow-md z-50">
+  <ul>
+    <li class="p-2 hover:bg-gray-200 cursor-pointer" onclick="handleAddToSection()">Add to new section</li>
+  </ul>
+</div>
 
 
 <script>
@@ -87,5 +99,46 @@
       }
     });
   });
+
+  document.addEventListener("contextmenu", function (e) {
+  e.preventDefault();
+  showCustomMenu(e.pageX, e.pageY);
+});
+
+let lastSelection = null;
+
+document.addEventListener("mouseup", (e) => {
+  const selection = window.getSelection();
+  const selectedText = selection.toString().trim();
+
+  // Only show menu if text is selected
+  if (selectedText.length > 0) {
+    const range = selection.getRangeAt(0);
+    const rect = range.getBoundingClientRect();
+
+    const menu = document.getElementById("context-menu");
+    menu.style.top = `${window.scrollY + rect.bottom}px`;
+    menu.style.left = `${window.scrollX + rect.left}px`;
+    menu.style.display = "block";
+
+    lastSelection = selection;
+  } else {
+    hideContextMenu();
+  }
+});
+
+// Click anywhere else hides menu
+document.addEventListener("click", (e) => {
+  const menu = document.getElementById("context-menu");
+  if (!menu.contains(e.target)) {
+    hideContextMenu();
+  }
+});
+
+function hideContextMenu() {
+  document.getElementById("context-menu").style.display = "none";
+  lastSelection = null;
+}
+
 </script>
 {% endblock %}
