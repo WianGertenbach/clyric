@@ -291,3 +291,8 @@ textarea {
   border-bottom: 2px solid #bdbdbd44;
   margin-bottom: 8px;
 }
+
+::selection {
+  background: var(--color-accent1); /* yellow highlight */
+  color: var(--color-text);      /* black text */
+}
