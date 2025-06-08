@@ -222,7 +222,7 @@ input[type="textarea"]{
   border-left: 2px solid #bdbdbd44;
 }
 
-#lyrics, #notes {
+.lyrics, .notes {
   border: none;
 }
 
@@ -242,7 +242,7 @@ textarea {
   gap: 12px;  
 }
 
-#title, #artist, #key, #tempo, #time_signature, #song-section-name {
+#title, #artist, #key, #tempo, #time_signature {
   border: none;
   border-radius: 0;
   outline: none;
@@ -250,6 +250,19 @@ textarea {
   font-size: 16px;
   font-weight: 500;
   color: #4B3F72;
+}
+
+.song-section-name {
+  border: none;
+  border-radius: 0;
+  outline: none;
+  background: none;
+  font-size: 16px;
+  font-weight: 500;
+  color: #4B3F72;
+  width: fit-content;
+  max-width: 12ch;
+  font-family: var(--font-family);
 }
 
 .page {
@@ -294,7 +307,7 @@ textarea {
 }
 
 
-#song-section-name {
+.song-section-name {
   border-bottom: 2px solid #bdbdbd44;
   margin-bottom: 8px;
 }

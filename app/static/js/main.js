@@ -1,4 +1,3 @@
-//Resizes text input based on length of content
 document.addEventListener("input", function (e) {
   if (e.target.tagName.toLowerCase() === "textarea") {
     e.target.style.height = "auto"; // reset
@@ -8,10 +7,9 @@ document.addEventListener("input", function (e) {
 
 function resizeInput(input) {
   const length = input.value.length;
-  input.style.width = (length > 0 ? length + 1 : 4) + 'ch'; // default to 4ch if empty
+  input.style.width = (length > 0 ? length + 1 : 12) + 'ch'; // default to 4ch if empty
 }
 
-//Goes to next form input when pressing Enter
 document.addEventListener("DOMContentLoaded", () => {
   const fields = document.querySelectorAll("input, textarea");
 
@@ -28,17 +26,16 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-//Displays context menu when right clicking selected text in textareas and inputs
 class CustomContextMenu {
     constructor() {
         this.contextMenu = document.getElementById('contextmenu');
         this.selectedText = '';
         this.currentElement = null;
+        this.selectedRange = null;
         this.init();
     }
 
     init() {
-        // Prevent default context menu on textareas and inputs
         document.addEventListener('contextmenu', (e) => {
             const tagName = e.target.tagName.toLowerCase();
             if (tagName === 'textarea' || tagName === 'input') {
@@ -47,19 +44,16 @@ class CustomContextMenu {
             }
         });
 
-        // Hide context menu when clicking elsewhere
         document.addEventListener('click', (e) => {
             if (this.contextMenu && !this.contextMenu.contains(e.target)) {
                 this.hideContextMenu();
             }
         });
 
-        // Hide context menu on scroll
         document.addEventListener('scroll', () => {
             this.hideContextMenu();
         });
 
-        // Handle menu item clicks
         if (this.contextMenu) {
             this.contextMenu.addEventListener('click', (e) => {
                 if (e.target.classList.contains('menu-links')) {
@@ -69,7 +63,6 @@ class CustomContextMenu {
             });
         }
 
-        // Hide context menu on Escape key
         document.addEventListener('keydown', (e) => {
             if (e.key === 'Escape') {
                 this.hideContextMenu();
@@ -80,7 +73,6 @@ class CustomContextMenu {
     handleRightClick(e) {
         const tagName = e.target.tagName.toLowerCase();
         
-        // Only proceed if the right-click happened on a textarea or input
         if (tagName !== 'textarea' && tagName !== 'input') {
             this.hideContextMenu();
             return;
@@ -89,10 +81,11 @@ class CustomContextMenu {
         const selection = window.getSelection();
         const selectedText = selection.toString().trim();
 
-        // Only show context menu if there's selected text
         if (selectedText.length > 0) {
             this.selectedText = selectedText;
             this.currentElement = e.target;
+            this.selectedRange = selection.rangeCount > 0 ? selection.getRangeAt(0).cloneRange() : null;
+            console.log('Stored range:', this.selectedRange, 'Selected text:', this.selectedText);
             this.showContextMenu(e.clientX, e.clientY, tagName);
         } else {
             this.hideContextMenu();
@@ -102,28 +95,20 @@ class CustomContextMenu {
     showContextMenu(x, y, elementType) {
         if (!this.contextMenu) return;
         
-        // Show/hide menu options based on element type
         const copyOption = this.contextMenu.querySelector('[data-action="copy"]').parentElement;
         const moveOption = this.contextMenu.querySelector('[data-action="move"]').parentElement;
         
         if (elementType === 'input') {
-            // For inputs: show only copy option
             copyOption.style.display = 'block';
             moveOption.style.display = 'none';
         } else if (elementType === 'textarea') {
-            // For textareas: show both options
             copyOption.style.display = 'block';
             moveOption.style.display = 'block';
         }
         
-        // Show the context menu
         this.contextMenu.style.display = 'flex';
-        
-        // Position the context menu
         this.contextMenu.style.left = `${x}px`;
         this.contextMenu.style.top = `${y}px`;
-
-        // Ensure the menu doesn't go off-screen
         this.adjustMenuPosition();
     }
 
@@ -134,17 +119,14 @@ class CustomContextMenu {
         const windowWidth = window.innerWidth;
         const windowHeight = window.innerHeight;
 
-        // Adjust horizontal position if menu goes off-screen
         if (menuRect.right > windowWidth) {
             this.contextMenu.style.left = `${windowWidth - menuRect.width - 10}px`;
         }
 
-        // Adjust vertical position if menu goes off-screen
         if (menuRect.bottom > windowHeight) {
             this.contextMenu.style.top = `${windowHeight - menuRect.height - 10}px`;
         }
 
-        // Ensure menu doesn't go above or to the left of the viewport
         if (menuRect.left < 0) {
             this.contextMenu.style.left = '10px';
         }
@@ -159,12 +141,7 @@ class CustomContextMenu {
         this.contextMenu.style.display = 'none';
         this.selectedText = '';
         this.currentElement = null;
-        
-        // Reset all menu options to be visible for next use
-        const copyOption = this.contextMenu.querySelector('[data-action="copy"]').parentElement;
-        const moveOption = this.contextMenu.querySelector('[data-action="move"]').parentElement;
-        copyOption.style.display = 'block';
-        moveOption.style.display = 'block';
+        this.selectedRange = null;
     }
 
     handleMenuClick(action) {
@@ -179,7 +156,6 @@ class CustomContextMenu {
                 console.log('Unknown action:', action);
         }
         
-        // Hide the context menu after action
         this.hideContextMenu();
     }
 
@@ -215,8 +191,110 @@ class CustomContextMenu {
     }
 
     moveToSection() {
-        console.log('Moving text to section:', this.selectedText);
-        this.showFeedback('Move to section functionality - implement as needed');
+        if (!this.currentElement || !this.selectedText || !this.selectedRange) {
+            console.log('Missing currentElement, selectedText, or selectedRange');
+            this.showFeedback('Error: No text selected');
+            return;
+        }
+
+        // Create new section HTML
+        const newSection = document.createElement('div');
+        newSection.className = 'second-wrapper';
+        newSection.innerHTML = `
+            <div class="column-wrapper">
+                <div class="lyrics-wrapper">
+                    <form action="" class="song-section">
+                        <input name="song_section" class="song-section-name" placeholder="Section">
+                        <textarea name="lyrics" class="lyrics" placeholder="Type/paste your lyrics here">${this.selectedText}</textarea>
+                    </form>
+                </div>
+                <div class="notes-wrapper">
+                    <form action="" class="notes-area">
+                        <textarea name="notes" class="notes" placeholder="Add section notes here"></textarea>
+                    </form>
+                </div>
+                <div class="section-options">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-three-dots section-menu" viewBox="0 0 16 16">
+                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+                    </svg>
+                </div>
+            </div>
+        `;
+
+        // Append new section to song-container
+        const songContainer = document.getElementById('song-container');
+        songContainer.appendChild(newSection);
+
+        // Remove selected text from original textarea
+        try {
+            const originalValue = this.currentElement.value;
+            const selection = window.getSelection();
+            selection.removeAllRanges();
+            selection.addRange(this.selectedRange);
+            if (selection.rangeCount > 0) {
+                this.selectedRange.deleteContents();
+                console.log('Selected text deleted via range.deleteContents');
+                // Verify if deletion worked by checking textarea value
+                if (this.currentElement.value === originalValue) {
+                    console.log('Deletion failed, textarea value unchanged, using fallback');
+                    this.fallbackRemoveText();
+                } else {
+                    this.currentElement.dispatchEvent(new Event('input', { bubbles: true }));
+                }
+            } else {
+                console.log('No range available after restoring, using fallback');
+                this.fallbackRemoveText();
+            }
+        } catch (err) {
+            console.error('Error deleting selected text:', err);
+            this.fallbackRemoveText();
+        }
+
+        // Apply textarea auto-resize to new textareas
+        const newTextareas = newSection.querySelectorAll('textarea');
+        newTextareas.forEach(textarea => {
+            textarea.style.height = 'auto';
+            textarea.style.height = (textarea.scrollHeight) + 'px';
+        });
+
+        // Add context menu support for new section's textareas
+        const newLyricsTextarea = newSection.querySelector('.lyrics');
+        const newNotesTextarea = newSection.querySelector('.notes');
+        [newLyricsTextarea, newNotesTextarea].forEach(textarea => {
+            textarea.addEventListener('contextmenu', (e) => {
+                e.preventDefault();
+                this.handleRightClick(e);
+            });
+        });
+
+        // Add input resizing for new section input
+        const newSectionInput = newSection.querySelector('.song-section-name');
+        newSectionInput.addEventListener('input', () => resizeInput(newSectionInput));
+        resizeInput(newSectionInput);
+
+        // Add Enter key navigation for new input
+        newSectionInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                newLyricsTextarea.focus();
+            }
+        });
+
+        this.showFeedback('Text moved to new section!');
+    }
+
+    fallbackRemoveText() {
+        if (!this.currentElement || !this.selectedText) return;
+        const textareaValue = this.currentElement.value;
+        const startPos = textareaValue.indexOf(this.selectedText);
+        if (startPos !== -1) {
+            this.currentElement.value = textareaValue.slice(0, startPos) + textareaValue.slice(startPos + this.selectedText.length);
+            this.currentElement.dispatchEvent(new Event('input', { bubbles: true }));
+            console.log('Fallback: Text removed via value manipulation');
+        } else {
+            console.log('Fallback: Selected text not found in textarea');
+            this.showFeedback('Error: Could not remove selected text');
+        }
     }
 
     showFeedback(message) {
@@ -245,7 +323,6 @@ class CustomContextMenu {
     }
 }
 
-// Initialize the custom context menu when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     new CustomContextMenu();
 });
