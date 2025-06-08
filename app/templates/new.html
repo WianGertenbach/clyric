@@ -61,84 +61,17 @@
 
   </div>
 </section>
-
 </section>
 
-<div id="context-menu" class="hidden absolute bg-white border rounded shadow-md z-50">
-  <ul>
-    <li class="p-2 hover:bg-gray-200 cursor-pointer" onclick="handleAddToSection()">Add to new section</li>
-  </ul>
+<div class="contextmenu" id="contextmenu">
+  <div class="menu-options">
+    <a href="" class="menu-links" data-action="copy">Copy</a>
+  </div>
+
+  <div class="menu-options">
+    <a href="" class="menu-links" data-action="move">Move to section</a>
+  </div>
 </div>
 
-
-<script>
-  document.addEventListener("input", function (e) {
-    if (e.target.tagName.toLowerCase() === "textarea") {
-      e.target.style.height = "auto"; // reset
-      e.target.style.height = (e.target.scrollHeight) + "px";
-    }
-  });
-
-  function resizeInput(input) {
-    const length = input.value.length;
-    input.style.width = (length > 0 ? length + 1 : 4) + 'ch'; // default to 4ch if empty
-  }
-
-  document.addEventListener("DOMContentLoaded", () => {
-    const fields = document.querySelectorAll("input, textarea");
-
-    fields.forEach((field, index) => {
-      if (field.tagName.toLowerCase() === 'input') {
-        field.addEventListener("keydown", function (e) {
-          if (e.key === "Enter") {
-            e.preventDefault(); // Prevent form submission
-            const next = fields[index + 1];
-            if (next) next.focus();
-          }
-        });
-      }
-    });
-  });
-
-  document.addEventListener("contextmenu", function (e) {
-  e.preventDefault();
-  showCustomMenu(e.pageX, e.pageY);
-});
-
-let lastSelection = null;
-
-document.addEventListener("mouseup", (e) => {
-  const selection = window.getSelection();
-  const selectedText = selection.toString().trim();
-
-  // Only show menu if text is selected
-  if (selectedText.length > 0) {
-    const range = selection.getRangeAt(0);
-    const rect = range.getBoundingClientRect();
-
-    const menu = document.getElementById("context-menu");
-    menu.style.top = `${window.scrollY + rect.bottom}px`;
-    menu.style.left = `${window.scrollX + rect.left}px`;
-    menu.style.display = "block";
-
-    lastSelection = selection;
-  } else {
-    hideContextMenu();
-  }
-});
-
-// Click anywhere else hides menu
-document.addEventListener("click", (e) => {
-  const menu = document.getElementById("context-menu");
-  if (!menu.contains(e.target)) {
-    hideContextMenu();
-  }
-});
-
-function hideContextMenu() {
-  document.getElementById("context-menu").style.display = "none";
-  lastSelection = null;
-}
-
-</script>
+<script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}

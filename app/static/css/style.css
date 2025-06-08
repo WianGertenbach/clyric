@@ -304,21 +304,40 @@ textarea {
   color: var(--color-text);      /* black text */
 }
 
-ul {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-}
-
-#context-menu {
-  box-shadow: 1px 1px 10px 1px rgba(77, 50, 95, 0.19);
+.contextmenu {
+  padding: 12px;
   background-color: white;
   width: fit-content;
-  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 1px 1px 10px 1px rgba(77, 50, 95, 0.19);
+  gap: 12px;
+  position: fixed; 
+  z-index: 1000;
   display: none;
-  z-index: 9999;
 }
 
-.hidden {
-  display: none;
+.menu-options {
+  border-bottom: 2px solid #bdbdbd44;
+}
+
+.menu-links {
+  color: var(--color-text);
+}
+
+.menu-options:last-child {
+  border-bottom: none;
+}
+
+.menu-links {
+    color: var(--color-text);
+    text-decoration: none;
+    display: block;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: background-color 0.2s;
+}
+
+.menu-links:hover {
+    background-color: #f5f5f5;
 }
