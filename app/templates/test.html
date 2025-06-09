@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chord Annotator</title>
+  <style>
+    body {
+      font-family: 'Montserrat', sans-serif;
+      padding: 50px;
+      background: #fdfaf6;
+      color: #4B3F72;
+    }
+
+    .lyrics {
+      font-size: 16px;
+      line-height: 1.5em;
+      padding: 20px;
+      border: 1px solid #ccc;
+      width: 400px;
+    }
+
+    span[data-chord] {
+      position: relative;
+      display: inline-block;
+    }
+
+    span[data-chord]::before {
+      content: attr(data-chord);
+      position: absolute;
+      top: -1.5em;
+      left: 0;
+      right: 0;
+      text-align: center;
+      font-weight: bold;
+      color: #8E7DBE;
+      font-size: 14px;
+    }
+
+    .contextmenu {
+      position: absolute;
+      z-index: 1000;
+      display: none;
+      flex-direction: column;
+      padding: 12px;
+      background-color: white;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+      border: 1px solid #ccc;
+    }
+
+    #chord-input {
+      margin-bottom: 8px;
+      padding: 4px;
+      font-size: 14px;
+    }
+
+    #apply-chord-btn {
+      padding: 6px;
+      background-color: #8E7DBE;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    #apply-chord-btn:hover {
+      background-color: #725FA9;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="lyrics" contenteditable="true">
+    This is a sample lyric line you can annotate with chords.
+  </div>
+
+  <div id="chord-context-menu" class="contextmenu">
+    <input type="text" id="chord-input" placeholder="Chord (e.g., Am)" />
+    <button id="apply-chord-btn">Apply Chord</button>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const menu = document.getElementById('chord-context-menu');
+      const chordInput = document.getElementById('chord-input');
+      const applyButton = document.getElementById('apply-chord-btn');
+      let selectedRange = null;
+
+      document.addEventListener('contextmenu', (e) => {
+        const selection = window.getSelection();
+        if (selection && selection.toString().trim().length > 0) {
+          const anchorNode = selection.anchorNode;
+          if (anchorNode && anchorNode.parentElement.closest('.lyrics')) {
+            e.preventDefault();
+            selectedRange = selection.getRangeAt(0).cloneRange();
+
+            // Show and position menu
+            menu.style.display = 'flex';
+            menu.style.top = `${e.pageY}px`;
+            menu.style.left = `${e.pageX}px`;
+            chordInput.value = '';
+            chordInput.focus();
+            return;
+          }
+        }
+
+        // Hide if not valid context
+        menu.style.display = 'none';
+      });
+
+      document.addEventListener('click', () => {
+        menu.style.display = 'none';
+      });
+
+      applyButton.addEventListener('click', () => {
+        const chord = chordInput.value.trim();
+        if (chord && selectedRange) {
+          const span = document.createElement('span');
+          span.setAttribute('data-chord', chord);
+          span.textContent = selectedRange.toString();
+
+          selectedRange.deleteContents();
+          selectedRange.insertNode(span);
+
+          menu.style.display = 'none';
+        }
+      });
+    });
+  </script>
+
+</body>
+</html>

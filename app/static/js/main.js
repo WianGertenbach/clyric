@@ -25,6 +25,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  // Initialize all sections, including template
+  document.querySelectorAll('.second-wrapper').forEach(section => {
+    initializeSection(section);
+  });
+
   // Initialize drag-and-drop for existing sections
   initializeDragAndDrop();
 });
@@ -32,8 +37,14 @@ document.addEventListener("DOMContentLoaded", () => {
 function initializeDragAndDrop() {
   const sections = document.querySelectorAll('.second-wrapper');
   sections.forEach(section => {
-    section.draggable = true;
-    section.addEventListener('dragstart', handleDragStart);
+    const dragHandle = section.querySelector('.drag-handle');
+    if (dragHandle) {
+      dragHandle.draggable = true; // Make drag handle draggable
+      dragHandle.addEventListener('dragstart', handleDragStart);
+      console.log('Dragstart listener added to drag handle for section:', section.dataset.sectionId || 'no-id');
+    } else {
+      console.warn('No drag handle found in section:', section.dataset.sectionId || 'no-id');
+    }
     section.addEventListener('dragover', handleDragOver);
     section.addEventListener('drop', handleDrop);
     section.addEventListener('dragend', handleDragEnd);
@@ -41,13 +52,29 @@ function initializeDragAndDrop() {
 }
 
 function handleDragStart(e) {
-  e.dataTransfer.setData('text/plain', e.target.dataset.sectionId);
-  e.target.classList.add('dragging');
+  const section = e.target.closest('.second-wrapper');
+  if (section) {
+    if (!section.dataset.sectionId) {
+      section.dataset.sectionId = `section-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
+      console.log('Assigned new section ID:', section.dataset.sectionId);
+    }
+    e.dataTransfer.setData('text/plain', section.dataset.sectionId);
+    e.dataTransfer.effectAllowed = 'move';
+    section.classList.add('dragging');
+    console.log('Drag started for section:', section.dataset.sectionId, 'via drag handle');
+  } else {
+    console.error('No parent section found for drag handle');
+    e.preventDefault();
+  }
 }
 
 function handleDragOver(e) {
   e.preventDefault();
   e.dataTransfer.dropEffect = 'move';
+  const section = e.target.closest('.second-wrapper');
+  if (section) {
+    section.classList.add('drag-over');
+  }
 }
 
 function handleDrop(e) {
@@ -65,11 +92,18 @@ function handleDrop(e) {
     } else {
       dropTarget.before(draggedSection);
     }
+    console.log('Section dropped:', draggedId, 'onto:', dropTarget.dataset.sectionId);
   }
+  document.querySelectorAll('.second-wrapper').forEach(s => s.classList.remove('drag-over'));
 }
 
 function handleDragEnd(e) {
-  e.target.classList.remove('dragging');
+  const section = e.target.closest('.second-wrapper');
+  if (section) {
+    section.classList.remove('dragging');
+    document.querySelectorAll('.second-wrapper').forEach(s => s.classList.remove('drag-over'));
+    console.log('Drag ended for section:', section.dataset.sectionId);
+  }
 }
 
 class CustomContextMenu {
@@ -154,7 +188,7 @@ class CustomContextMenu {
       this.selectedText = selectedText;
       this.currentElement = e.target;
       this.selectedRange = selection.rangeCount > 0 ? selection.getRangeAt(0).cloneRange() : null;
-      this.showTextContextMenu(e.clientX, e.clientY, tagName);
+      this.showTextContextMenu(e.pageX, e.pageY, tagName);
     } else {
       this.hideTextContextMenu();
     }
@@ -167,7 +201,8 @@ class CustomContextMenu {
       if (!this.currentSection.dataset.sectionId) {
         this.currentSection.dataset.sectionId = `section-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
       }
-      this.showSectionContextMenu(e.clientX, e.clientY);
+      console.log('Section menu click at clientX:', e.clientX, 'clientY:', e.clientY, 'pageX:', e.pageX, 'pageY:', e.pageY, 'scrollY:', window.scrollY);
+      this.showSectionContextMenu(e.pageX, e.pageY);
     }
   }
 
@@ -189,15 +224,20 @@ class CustomContextMenu {
     this.textContextMenu.style.left = `${x}px`;
     this.textContextMenu.style.top = `${y}px`;
     this.adjustMenuPosition(this.textContextMenu);
+    console.log('Text context menu shown at:', x, y);
   }
 
   showSectionContextMenu(x, y) {
-    if (!this.sectionContextMenu) return;
+    if (!this.sectionContextMenu) {
+      console.warn('Section context menu element not found');
+      return;
+    }
     
     this.sectionContextMenu.style.display = 'flex';
     this.sectionContextMenu.style.left = `${x}px`;
     this.sectionContextMenu.style.top = `${y}px`;
     this.adjustMenuPosition(this.sectionContextMenu);
+    console.log('Section context menu shown at:', x, y);
   }
 
   adjustMenuPosition(menu) {
@@ -221,6 +261,7 @@ class CustomContextMenu {
     if (menuRect.top < 0) {
       menu.style.top = '10px';
     }
+    console.log('Menu adjusted to:', menu.style.left, menu.style.top);
   }
 
   hideTextContextMenu() {
@@ -332,6 +373,11 @@ class CustomContextMenu {
               <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
             </svg>
           </button>
+          <button class="drag-handle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-grip-vertical" viewBox="0 0 16 16">
+              <path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+            </svg>
+          </button>
         </div>
       </div>
     `;
@@ -368,6 +414,11 @@ class CustomContextMenu {
           <button class="tripple-dot-menu">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-three-dots section-menu" viewBox="0 0 16 16">
               <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+            </svg>
+          </button>
+          <button class="drag-handle">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-grip-vertical" viewBox="0 0 16 16">
+              <path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
             </svg>
           </button>
         </div>
@@ -462,12 +513,30 @@ class CustomContextMenu {
       }
     });
 
-    // Add drag-and-drop support
-    section.draggable = true;
-    section.addEventListener('dragstart', handleDragStart);
+    // Add drag-and-drop support to drag handle
+    const dragHandle = section.querySelector('.drag-handle');
+    if (dragHandle) {
+      dragHandle.draggable = true; // Make drag handle draggable
+      dragHandle.addEventListener('dragstart', handleDragStart);
+      console.log('Dragstart listener added to drag handle for section:', section.dataset.sectionId || 'no-id');
+    } else {
+      console.warn('No drag handle found in section:', section.dataset.sectionId || 'no-id');
+    }
     section.addEventListener('dragover', handleDragOver);
     section.addEventListener('drop', handleDrop);
     section.addEventListener('dragend', handleDragEnd);
+
+    // Ensure section menu button is initialized
+    const menuButton = section.querySelector('.tripple-dot-menu');
+    if (menuButton) {
+      // Remove existing listeners to prevent duplicates
+      const newButton = menuButton.cloneNode(true);
+      menuButton.replaceWith(newButton);
+      newButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        this.handleSectionMenuClick(e);
+      });
+    }
   }
 
   fallbackRemoveText() {

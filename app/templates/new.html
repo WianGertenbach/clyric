@@ -35,12 +35,41 @@
 
 <section class="song-content">
 <div class="top-wrapper" id="song-container">
-<div class="second-wrapper" draggable="true">
+  <!-- Context Menus -->
+      <div id="contextmenu" class="contextmenu">
+        <div class="contextmenu__item">
+          <a href="#" class="menu-links" data-action="copy">Copy</a>
+        </div>
+        <div class="contextmenu__item">
+          <a href="#" class="menu-links" data-action="move">Move to Section</a>
+        </div>
+        <div class="contextmenu__item">
+          <a href="#" class="menu-links" data-action="add-chord">Add Chord</a>
+        </div>
+      </div>
+      <div id="section-contextmenu" class="contextmenu">
+        <div class="contextmenu__item">
+          <a href="#" class="menu-links" data-action="add">Add New Section</a>
+        </div>
+        <div class="contextmenu__item">
+          <a href="#" class="menu-links" data-action="duplicate">Duplicate</a>
+        </div>
+        <div class="contextmenu__item">
+          <a href="#" class="menu-links" data-action="delete">Delete</a>
+        </div>
+      </div>
+
+
+<div class="second-wrapper" data-section-id="section-template">
   <div class="column-wrapper">
     <div class="lyrics-wrapper">
       <form action="" class="song-section">
         <input name="song_section" class="song-section-name" placeholder="Section">
-        <textarea name="lyrics" class="lyrics" placeholder="Type/paste your lyrics here"></textarea>
+        <div class="lyrics-container">
+          <textarea name="lyrics" class="lyrics" placeholder="Type/paste your lyrics here"></textarea>
+          <div class="chord-display"></div>
+        </div>
+        <input type="hidden" name="chords" class="chords-data">
       </form>
     </div>
     <div class="notes-wrapper">
@@ -54,6 +83,11 @@
           <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
         </svg>
       </button>
+      <button class="drag-handle">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-grip-vertical" viewBox="0 0 16 16">
+          <path d="M7 2a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M7 5a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0M7 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0m-3 3a1 1 0 1 1-2 0 1 1 0 0 1 2 0m3 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+        </svg>
+      </button>
     </div>
   </div>
 </div>
@@ -62,27 +96,6 @@
 </section>
 </section>
 
-<div class="contextmenu" id="contextmenu">
-  <div class="menu-options">
-    <a href="" class="menu-links" data-action="copy">Copy</a>
-  </div>
-
-  <div class="menu-options">
-    <a href="" class="menu-links" data-action="move">Move to section</a>
-  </div>
-</div>
-
-<div class="contextmenu" id="section-contextmenu">
-  <div class="menu-options">
-    <a href="#" class="menu-links" data-action="add">Add New Section</a>
-  </div>
-  <div class="menu-options">
-    <a href="#" class="menu-links" data-action="duplicate">Duplicate Section</a>
-  </div>
-  <div class="menu-options">
-    <a href="#" class="menu-links" data-action="delete">Delete Section</a>
-  </div>
-</div>
 
 <script src="{{ url_for('static', filename='js/main.js') }}"></script>
 {% endblock %}

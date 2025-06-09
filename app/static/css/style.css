@@ -204,10 +204,13 @@ input[type="textarea"]{
 
 .section-options {
   display: flex;
-  justify-content: end;
-  
-  align-items: start;
-  
+  justify-content: start;
+  flex-direction: column;
+  align-items: end;
+}
+
+.section-menu, .drag-handle {
+  color: #8E7DBE;
 }
 
 .section-menu:hover {
@@ -274,7 +277,7 @@ textarea {
   background-color: #fdfaf6;
   padding: 12px;
   box-shadow: 1px 1px 10px 1px rgba(77, 50, 95, 0.19);
-  margin-bottom: 50px;
+  margin-bottom: 100px;
 }
 
 .song-content {
@@ -371,3 +374,45 @@ button {
 .second-wrapper:hover {
   cursor: move;
 }
+
+.second-wrapper.dragging {
+  opacity: 0.5;
+  border: 2px dashed #8E7DBE;
+}
+
+.second-wrapper.drag-over {
+  border: 2px solid #8E7DBE;
+}
+
+.second-wrapper:hover {
+  cursor: default; /* Remove move cursor from section */
+}
+
+.section-options {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.tripple-dot-menu, .drag-handle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+}
+
+.drag-handle:hover {
+  cursor: move;
+}
+
+.drag-handle svg {
+  fill: #8E7DBE;
+}
+
+#section-contextmenu {
+  position: absolute;
+  z-index: 1000;
+  display: none;
+}
+
