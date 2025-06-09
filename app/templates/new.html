@@ -34,32 +34,31 @@
 </section>
 
 <section class="song-content">
-  <div class="top-wrapper" id="song-container">
-    <div class="second-wrapper">
-      <div class="column-wrapper">
-        <div class="lyrics-wrapper">
-          <form action="" class="song-section">
-            <input name="song_section" class="song-section-name" placeholder="Section">
-            <textarea name="lyrics" class="lyrics" placeholder="Type/paste your lyrics here"></textarea>
-          </form>
-        </div>
-
-      <div class="notes-wrapper">
-        <form action="" class="notes-area">
-          <textarea name="notes" class="notes" placeholder="Add section notes here"></textarea>
-        </form>
-      </div>
-
-      <div class="section-options">
+<div class="top-wrapper" id="song-container">
+<div class="second-wrapper" draggable="true">
+  <div class="column-wrapper">
+    <div class="lyrics-wrapper">
+      <form action="" class="song-section">
+        <input name="song_section" class="song-section-name" placeholder="Section">
+        <textarea name="lyrics" class="lyrics" placeholder="Type/paste your lyrics here"></textarea>
+      </form>
+    </div>
+    <div class="notes-wrapper">
+      <form action="" class="notes-area">
+        <textarea name="notes" class="notes" placeholder="Add section notes here"></textarea>
+      </form>
+    </div>
+    <div class="section-options">
+      <button class="tripple-dot-menu">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-three-dots section-menu" viewBox="0 0 16 16">
-        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
+          <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3m5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3"/>
         </svg>
-      </div>
+      </button>
     </div>
   </div>
+</div>
 
-
-  </div>
+</div>
 </section>
 </section>
 
@@ -70,6 +69,18 @@
 
   <div class="menu-options">
     <a href="" class="menu-links" data-action="move">Move to section</a>
+  </div>
+</div>
+
+<div class="contextmenu" id="section-contextmenu">
+  <div class="menu-options">
+    <a href="#" class="menu-links" data-action="add">Add New Section</a>
+  </div>
+  <div class="menu-options">
+    <a href="#" class="menu-links" data-action="duplicate">Duplicate Section</a>
+  </div>
+  <div class="menu-options">
+    <a href="#" class="menu-links" data-action="delete">Delete Section</a>
   </div>
 </div>
 

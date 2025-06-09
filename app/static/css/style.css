@@ -205,7 +205,9 @@ input[type="textarea"]{
 .section-options {
   display: flex;
   justify-content: end;
-  padding-right: 8px;
+  
+  align-items: start;
+  
 }
 
 .section-menu:hover {
@@ -272,6 +274,7 @@ textarea {
   background-color: #fdfaf6;
   padding: 12px;
   box-shadow: 1px 1px 10px 1px rgba(77, 50, 95, 0.19);
+  margin-bottom: 50px;
 }
 
 .song-content {
@@ -353,4 +356,18 @@ textarea {
 
 .menu-links:hover {
     background-color: #f5f5f5;
+}
+
+button {
+  border: none;
+  background: none;
+ }
+
+ .second-wrapper.dragging {
+  opacity: 0.5;
+  border: 2px dashed #8E7DBE;
+}
+
+.second-wrapper:hover {
+  cursor: move;
 }
